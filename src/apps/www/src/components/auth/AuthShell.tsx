@@ -268,11 +268,6 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               >
                 {isSignup ? "Create your cyberLedger account" : "Sign in to cyberLedger"}
               </h1>
-              <p className="text-ink-secondary mt-1.5 text-[13.5px] leading-[1.5]">
-                {isSignup
-                  ? "Start protecting Linux servers with real-time detection and blocks."
-                  : "Monitor Linux servers, inspect live incidents, and manage blocks."}
-              </p>
             </div>
 
             <div className="mt-5 flex flex-col gap-2.5">
@@ -527,38 +522,6 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               </button>
             </form>
 
-            {isSignup && (
-              <p className="text-ink-muted mt-3.5 text-center text-[12px] leading-[1.5]">
-                By creating an account, you agree to cyberLedger&apos;s{" "}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setNotice({
-                      tone: "info",
-                      message: "Link your hosted Terms of Service document before publishing.",
-                    })
-                  }
-                  className="text-ink-secondary hover:text-ink cursor-pointer underline underline-offset-2"
-                >
-                  Terms
-                </button>{" "}
-                and{" "}
-                <button
-                  type="button"
-                  onClick={() =>
-                    setNotice({
-                      tone: "info",
-                      message: "Link your hosted Privacy Policy document before publishing.",
-                    })
-                  }
-                  className="text-ink-secondary hover:text-ink cursor-pointer underline underline-offset-2"
-                >
-                  Privacy Policy
-                </button>
-                .
-              </p>
-            )}
-
             {notice && (
               <div
                 role="status"
@@ -607,85 +570,6 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               </Link>
             </div>
           </section>
-
-          <footer className="text-ink-muted mt-4 flex flex-wrap items-center justify-between gap-3 px-1 text-[12px]">
-            {isSignup ? (
-              <div className="flex flex-wrap items-center gap-4">
-                <span className="inline-flex items-center gap-1.5">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z" />
-                  </svg>
-                  2-min agent install
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-                  </svg>
-                  No credit card required
-                </span>
-              </div>
-            ) : (
-              <div className="flex flex-wrap items-center gap-4">
-                <span className="inline-flex items-center gap-1.5">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <rect x="4" y="10" width="16" height="11" rx="2" />
-                    <path d="M8 10V7a4 4 0 0 1 8 0v3" />
-                  </svg>
-                  TLS 1.3 encrypted
-                </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <svg
-                    width="13"
-                    height="13"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-                  </svg>
-                  Audited sessions
-                </span>
-              </div>
-            )}
-
-            <a href={DASHBOARD_URL} className="text-ink-secondary hover:text-ink transition-colors">
-              Inspect console
-            </a>
-          </footer>
         </div>
       </main>
     </div>
