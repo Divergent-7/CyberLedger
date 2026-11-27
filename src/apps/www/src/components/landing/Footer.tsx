@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
 import { useLandingAuth } from "@/components/landing/LandingAuthContext";
-import { DASHBOARD_URL } from "@/lib/config";
 
 export function Footer() {
   const { user } = useLandingAuth();
@@ -25,9 +24,6 @@ export function Footer() {
           </a>
           <a href="#features" className="hover:text-ink transition-colors">
             Features
-          </a>
-          <a href={DASHBOARD_URL} className="hover:text-ink transition-colors">
-            Live console
           </a>
           {!user && (
             <Link href="/login" className="hover:text-ink transition-colors">
