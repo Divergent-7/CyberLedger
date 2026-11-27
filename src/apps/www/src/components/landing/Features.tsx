@@ -51,7 +51,7 @@ export function Features() {
                 Burst-proof by design
               </h3>
               <p className="text-ink-secondary mt-2 text-[14px] leading-[1.6]">
-                When scanners flood your servers, Secura queues everything instantly and processes
+                When scanners flood your servers, cyberLedger queues everything instantly and processes
                 it at a steady pace — nothing dropped, nothing slowed down.
               </p>
             </div>

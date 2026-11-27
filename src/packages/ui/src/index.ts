@@ -1,1 +1,1 @@
-export { SecuraMark, type SecuraMarkProps } from "./SecuraMark";
+export { CyberLedgerMark, type CyberLedgerMarkProps } from "./CyberLedgerMark";

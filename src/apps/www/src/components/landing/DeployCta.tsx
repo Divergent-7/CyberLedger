@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 
 import { DASHBOARD_URL } from "@/lib/config";
 
-const INSTALL_CMD = "curl -sSL get.secura.dev | sudo sh";
+const INSTALL_CMD = "curl -sSL get.cyberledger.dev | sudo sh";
 
 export function DeployCta() {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
@@ -61,7 +61,7 @@ export function DeployCta() {
               Protect your first server today.
             </h2>
             <p className="text-ink-secondary mt-3 max-w-[440px] text-[15px] leading-[1.6]">
-              Install the Secura agent on any Ubuntu or Debian host and see your first insights in
+              Install the cyberLedger agent on any Ubuntu or Debian host and see your first insights in
               minutes.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
@@ -114,7 +114,7 @@ export function DeployCta() {
               >
                 <div>Detected Debian/Ubuntu (systemd 255)</div>
                 <div>Attached log collectors: sshd, nginx, nftables</div>
-                <div className="text-safe">Agent online. Streaming to Secura console.</div>
+                <div className="text-safe">Agent online. Streaming to cyberLedger console.</div>
               </div>
             </div>
           </div>

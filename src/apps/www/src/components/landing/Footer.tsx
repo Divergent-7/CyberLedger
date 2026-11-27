@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-import { SecuraLogo } from "@/components/brand/SecuraLogo";
+import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export function Footer() {
   return (
     <footer className="border-line border-t py-8">
       <div className="mx-auto flex w-full max-w-[1120px] flex-col items-start justify-between gap-4 px-5 sm:flex-row sm:items-center sm:px-7">
-        <SecuraLogo size={20} href="/" />
+        <CyberLedgerLogo size={20} href="/" />
         <nav
           aria-label="Footer"
           className="text-ink-secondary flex flex-wrap items-center gap-5 text-[13px]"
@@ -28,7 +28,7 @@ export function Footer() {
             Sign in
           </Link>
         </nav>
-        <span className="text-ink-muted text-[12.5px]">&copy; 2026 Secura</span>
+        <span className="text-ink-muted text-[12.5px]">&copy; 2026 cyberLedger</span>
       </div>
     </footer>
   );

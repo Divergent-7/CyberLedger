@@ -2,8 +2,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "@secura/ui": ["./src/packages/ui/src/index.ts"],
-      "@secura/ui/*": ["./src/packages/ui/src/*"]
+      "@cyberledger/ui": ["./src/packages/ui/src/index.ts"],
+      "@cyberledger/ui/*": ["./src/packages/ui/src/*"]
     }
   },
   "files": [],

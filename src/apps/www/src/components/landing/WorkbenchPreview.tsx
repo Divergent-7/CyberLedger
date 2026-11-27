@@ -76,7 +76,7 @@ const STAGES: StageInfo[] = [
     mitre: ["T1046", "T1110", "T1190"],
     prose:
       "Verified 185.220.101.42 is outside trusted subnets and applied a signed firewall drop rule in 38 ms. Subsequent traffic is dropped cleanly and expires automatically in 4 hours.",
-    rule: "nft add element inet secura blocked { 185.220.101.42 timeout 4h }",
+    rule: "nft add element inet cyberledger blocked { 185.220.101.42 timeout 4h }",
     blocked: true,
   },
 ];
@@ -368,7 +368,7 @@ export function WorkbenchPreview() {
   let statusChipClass = "border-line bg-surface text-ink-secondary";
   let hostDotClass = "bg-safe";
   let prose =
-    "Baseline traffic from internal subnets is passing local scoring with zero alerts. Secura tracks behavioral memory per source IP across services.";
+    "Baseline traffic from internal subnets is passing local scoring with zero alerts. cyberLedger tracks behavioral memory per source IP across services.";
   let ruleText = "No firewall rule applied yet";
 
   if (!isObserving) {
@@ -380,7 +380,7 @@ export function WorkbenchPreview() {
         manualBlockOverride === true
           ? "Manual block applied for 185.220.101.42. Verified outside trusted subnets; signed nftables drop rule is active on web-prod-02 and logged to the audit trail."
           : stageData.prose;
-      ruleText = "nft add element inet secura blocked { 185.220.101.42 timeout 4h }";
+      ruleText = "nft add element inet cyberledger blocked { 185.220.101.42 timeout 4h }";
     } else {
       statusLabel = manualBlockOverride === false ? "Rule lifted" : stageData.status;
       statusChipClass = "border-accent/35 bg-accent/12 text-accent";
@@ -392,11 +392,11 @@ export function WorkbenchPreview() {
             : "bg-safe";
       prose =
         manualBlockOverride === false
-          ? "Firewall block for 185.220.101.42 was lifted manually. Secura continues monitoring the source with active behavioral memory."
+          ? "Firewall block for 185.220.101.42 was lifted manually. cyberLedger continues monitoring the source with active behavioral memory."
           : stageData.prose;
       ruleText =
         manualBlockOverride === false
-          ? "nft delete element inet secura blocked { 185.220.101.42 }"
+          ? "nft delete element inet cyberledger blocked { 185.220.101.42 }"
           : stageData.rule;
     }
   }
@@ -419,7 +419,7 @@ export function WorkbenchPreview() {
               Thousands of logs. Only what matters.
             </h2>
             <p className="text-ink-secondary mt-3 text-[15px] leading-[1.6]">
-              Secura reads every line your servers produce, ignores the noise, and acts the moment
+              cyberLedger reads every line your servers produce, ignores the noise, and acts the moment
               something turns dangerous. Watch a single attacker unfold on{" "}
               <span className="text-ink-soft font-mono text-[13.5px]">web-prod-02</span> below.
             </p>

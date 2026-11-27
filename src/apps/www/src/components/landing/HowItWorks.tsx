@@ -17,7 +17,7 @@ const PIPELINE_STAGES: StageCard[] = [
     timing: "0 to 5 ms",
     title: "Collect",
     description:
-      "A lightweight agent streams auth, web, and firewall logs. Secura remembers each IP's behavior, so slow multi-step attacks never slip through.",
+      "A lightweight agent streams auth, web, and firewall logs. cyberLedger remembers each IP's behavior, so slow multi-step attacks never slip through.",
     artifactLabel: "Collection telemetry example",
     lines: [
       { key: "sources", value: "sshd, nginx, nftables" },

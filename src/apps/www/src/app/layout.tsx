@@ -17,11 +17,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Secura — Stop attacks before they escalate",
-    template: "%s — Secura",
+    default: "cyberLedger — Stop attacks before they escalate",
+    template: "%s — cyberLedger",
   },
   description:
-    "Secura watches your Linux servers in real time, explains every threat in plain language, and blocks attackers automatically.",
+    "cyberLedger watches your Linux servers in real time, explains every threat in plain language, and blocks attackers automatically.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
