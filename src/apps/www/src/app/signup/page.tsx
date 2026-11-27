@@ -1,0 +1,13 @@
+import type { Metadata } from "next";
+
+import { AuthShell } from "@/components/auth/AuthShell";
+
+export const metadata: Metadata = {
+  title: "Create account",
+  description:
+    "Create a Secura account to monitor Linux servers with real-time threat detection and automatic blocking.",
+};
+
+export default function SignupPage() {
+  return <AuthShell mode="signup" />;
+}
