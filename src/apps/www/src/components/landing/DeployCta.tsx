@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useRef, useState } from "react";
 
+import { useLandingAuth } from "@/components/landing/LandingAuthContext";
 import { DASHBOARD_URL } from "@/lib/config";
 
 const INSTALL_CMD = "curl -sSL get.cyberledger.dev | sudo sh";
 
 export function DeployCta() {
+  const { user } = useLandingAuth();
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const resetTimerRef = useRef<number | null>(null);
 
@@ -61,22 +63,34 @@ export function DeployCta() {
               Protect your first server today.
             </h2>
             <p className="text-ink-secondary mt-3 max-w-[440px] text-[15px] leading-[1.6]">
-              Install the cyberLedger agent on any Ubuntu or Debian host and see your first insights in
-              minutes.
+              Install the cyberLedger agent on any Ubuntu or Debian host and see your first insights
+              in minutes.
             </p>
             <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Link
-                href="/signup"
-                className="bg-ink text-canvas inline-flex h-11 items-center rounded-md px-5 text-[14px] font-medium transition-opacity hover:opacity-90"
-              >
-                Get started free
-              </Link>
-              <a
-                href={DASHBOARD_URL}
-                className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover inline-flex h-11 items-center rounded-md border px-5 text-[14px] font-medium transition-colors"
-              >
-                Open live dashboard
-              </a>
+              {user ? (
+                <a
+                  href={DASHBOARD_URL}
+                  className="bg-ink text-canvas inline-flex h-11 items-center gap-2 rounded-md px-5 text-[14px] font-medium transition-opacity hover:opacity-90"
+                >
+                  <span>Open live dashboard</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              ) : (
+                <>
+                  <Link
+                    href="/signup"
+                    className="bg-ink text-canvas inline-flex h-11 items-center rounded-md px-5 text-[14px] font-medium transition-opacity hover:opacity-90"
+                  >
+                    Get started free
+                  </Link>
+                  <a
+                    href={DASHBOARD_URL}
+                    className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover inline-flex h-11 items-center rounded-md border px-5 text-[14px] font-medium transition-colors"
+                  >
+                    Open live dashboard
+                  </a>
+                </>
+              )}
             </div>
           </div>
 
