@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "bun --filter @cyberledger/www dev",
     "dev:api": "bun --filter @cyberledger/api dev",
+    "dev:dashboard": "bun --filter @cyberledger/dashboard dev",
     "dev:www": "bun --filter @cyberledger/www dev",
     "start:api": "bun --filter @cyberledger/api start",
     "build": "bun --filter './src/apps/*' build",
