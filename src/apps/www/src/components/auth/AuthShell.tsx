@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 
 import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
 import { authClient } from "@/lib/auth/client";
@@ -45,6 +45,47 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
   }>({});
   const [notice, setNotice] = useState<NoticeState | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const redirectingToDashboardRef = useRef(false);
+
+  useEffect(() => {
+    let active = true;
+
+    const redirectIfAuthenticated = async () => {
+      if (redirectingToDashboardRef.current) return;
+      try {
+        const res = await fetch("/api/me", {
+          credentials: "same-origin",
+          cache: "no-store",
+        });
+        if (!active || redirectingToDashboardRef.current) return;
+        if (res.ok) {
+          window.location.replace("/");
+        }
+      } catch {
+        // Ignore transient network errors.
+      }
+    };
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        void redirectIfAuthenticated();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        void redirectIfAuthenticated();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      active = false;
+      window.removeEventListener("pageshow", handlePageShow);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   const strength = getPasswordStrength(password);
 
@@ -86,6 +127,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
           });
           return;
         }
+        redirectingToDashboardRef.current = true;
         window.location.assign(DASHBOARD_URL);
       } catch (err) {
         setNotice({
@@ -128,6 +170,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
         });
         return;
       }
+      redirectingToDashboardRef.current = true;
       window.location.assign(DASHBOARD_URL);
     } catch (err) {
       setNotice({

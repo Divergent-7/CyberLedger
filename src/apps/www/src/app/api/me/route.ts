@@ -75,6 +75,7 @@ export async function GET(request: Request) {
         email: session.user.email,
         name: session.user.name,
         emailVerified: session.user.emailVerified,
+        createdAt: session.user.createdAt ?? null,
       },
     },
     { headers },

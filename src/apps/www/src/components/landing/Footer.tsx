@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
 
 import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
+import { useLandingAuth } from "@/components/landing/LandingAuthContext";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export function Footer() {
+  const { user } = useLandingAuth();
+
   return (
     <footer className="border-line border-t py-8">
       <div className="mx-auto flex w-full max-w-[1120px] flex-col items-start justify-between gap-4 px-5 sm:flex-row sm:items-center sm:px-7">
@@ -24,9 +29,11 @@ export function Footer() {
           <a href={DASHBOARD_URL} className="hover:text-ink transition-colors">
             Live console
           </a>
-          <Link href="/login" className="hover:text-ink transition-colors">
-            Sign in
-          </Link>
+          {!user && (
+            <Link href="/login" className="hover:text-ink transition-colors">
+              Sign in
+            </Link>
+          )}
         </nav>
         <span className="text-ink-muted text-[12.5px]">&copy; 2026 cyberLedger</span>
       </div>

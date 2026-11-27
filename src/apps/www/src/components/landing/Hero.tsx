@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 
+import { useLandingAuth } from "@/components/landing/LandingAuthContext";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export function Hero() {
+  const { user } = useLandingAuth();
+
   return (
     <section
       aria-labelledby="hero-heading"
@@ -44,25 +49,45 @@ export function Hero() {
         </h1>
 
         <p className="text-ink-secondary mt-6 max-w-[540px] text-[16px] leading-[1.6] sm:text-[17.5px]">
-          cyberLedger watches your servers in real time, explains every threat in plain language, and
-          blocks attackers automatically.
+          cyberLedger watches your servers in real time, explains every threat in plain language,
+          and blocks attackers automatically.
         </p>
 
         {/* Primary & secondary CTAs */}
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <Link
-            href="/signup"
-            className="bg-ink text-canvas inline-flex h-11 items-center gap-2 rounded-md px-6 text-[14px] font-medium transition-opacity hover:opacity-90"
-          >
-            <span>Start protecting</span>
-            <span aria-hidden="true">&rarr;</span>
-          </Link>
-          <a
-            href={DASHBOARD_URL}
-            className="border-line bg-panel/90 text-ink hover:border-line-hover hover:bg-surface inline-flex h-11 items-center rounded-md border px-6 text-[14px] font-medium transition-colors"
-          >
-            Open live dashboard
-          </a>
+          {user ? (
+            <>
+              <a
+                href={DASHBOARD_URL}
+                className="bg-ink text-canvas inline-flex h-11 items-center gap-2 rounded-md px-6 text-[14px] font-medium transition-opacity hover:opacity-90"
+              >
+                <span>Open live dashboard</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+              <a
+                href="#start"
+                className="border-line bg-panel/90 text-ink hover:border-line-hover hover:bg-surface inline-flex h-11 items-center rounded-md border px-6 text-[14px] font-medium transition-colors"
+              >
+                Deploy an agent
+              </a>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signup"
+                className="bg-ink text-canvas inline-flex h-11 items-center gap-2 rounded-md px-6 text-[14px] font-medium transition-opacity hover:opacity-90"
+              >
+                <span>Start protecting</span>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+              <a
+                href={DASHBOARD_URL}
+                className="border-line bg-panel/90 text-ink hover:border-line-hover hover:bg-surface inline-flex h-11 items-center rounded-md border px-6 text-[14px] font-medium transition-colors"
+              >
+                Open live dashboard
+              </a>
+            </>
+          )}
         </div>
 
         {/* Divider + capability highlights */}
