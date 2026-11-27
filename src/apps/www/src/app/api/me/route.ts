@@ -1,14 +1,17 @@
 import { auth } from "@/lib/auth/server";
 import { DASHBOARD_URL } from "@/lib/config";
 
-function getAllowedOrigin(request: Request): string | null {
-  const origin = request.headers.get("origin");
-  if (!origin) return null;
-
+function getAllowedOrigins(request: Request): Set<string> {
   const allowed = new Set<string>([
     "https://app.cyberledger.dev",
     "https://cyber-ledger-dashboard-mohamedsayed0573s-projects.vercel.app",
   ]);
+
+  try {
+    allowed.add(new URL(request.url).origin);
+  } catch {
+    // Ignore malformed request URL.
+  }
 
   try {
     allowed.add(new URL(DASHBOARD_URL).origin);
@@ -21,7 +24,13 @@ function getAllowedOrigin(request: Request): string | null {
     allowed.add("http://127.0.0.1:5173");
   }
 
-  return allowed.has(origin) ? origin : null;
+  return allowed;
+}
+
+function getAllowedOrigin(request: Request): string | null {
+  const origin = request.headers.get("origin");
+  if (!origin) return null;
+  return getAllowedOrigins(request).has(origin) ? origin : null;
 }
 
 function buildHeaders(request: Request): Headers {
@@ -40,6 +49,11 @@ function buildHeaders(request: Request): Headers {
 }
 
 export async function OPTIONS(request: Request) {
+  const origin = request.headers.get("origin");
+  const allowedOrigin = getAllowedOrigin(request);
+  if (origin && !allowedOrigin) {
+    return new Response(null, { status: 403, headers: buildHeaders(request) });
+  }
   return new Response(null, {
     status: 204,
     headers: buildHeaders(request),
@@ -69,6 +83,11 @@ export async function GET(request: Request) {
 
 export async function DELETE(request: Request) {
   const headers = buildHeaders(request);
+  const origin = request.headers.get("origin");
+  if (origin && !getAllowedOrigin(request)) {
+    return Response.json({ error: "Forbidden origin" }, { status: 403, headers });
+  }
+
   await auth.signOut();
   return Response.json({ success: true }, { headers });
 }
