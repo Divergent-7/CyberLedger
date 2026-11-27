@@ -21,7 +21,26 @@ import {
   WWW_URL,
 } from "@/data/telemetry";
 
+interface AuthUser {
+  id: string;
+  email: string;
+  name?: string | null;
+}
+
+function getInitials(name?: string | null, email?: string): string {
+  const source = (name?.trim() || email?.split("@")[0] || "CL").trim();
+  const parts = source.split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+  }
+  return source.slice(0, 2).toUpperCase();
+}
+
 export function App() {
+  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [signingOut, setSigningOut] = useState<boolean>(false);
+
   const [tab, setTab] = useState<TabId>("overview");
   const [range, setRange] = useState<TimeRange>("24h");
   const [host, setHost] = useState<string>("all");
@@ -57,6 +76,38 @@ export function App() {
       setToast((prev) => ({ ...prev, visible: false }));
     }, 3200);
   };
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function checkSession() {
+      try {
+        const res = await fetch(`${WWW_URL}/api/me`, {
+          credentials: "include",
+        });
+        if (!res.ok) {
+          if (!cancelled) window.location.replace(`${WWW_URL}/login`);
+          return;
+        }
+        const data = (await res.json()) as { user?: AuthUser };
+        if (!data?.user) {
+          if (!cancelled) window.location.replace(`${WWW_URL}/login`);
+          return;
+        }
+        if (!cancelled) {
+          setAuthUser(data.user);
+          setAuthChecked(true);
+        }
+      } catch {
+        if (!cancelled) window.location.replace(`${WWW_URL}/login`);
+      }
+    }
+
+    checkSession();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -190,6 +241,29 @@ export function App() {
   const showRightRail = showFeed || showServers;
 
   const activeQueryLower = query.trim().toLowerCase();
+
+  const handleSignOut = async () => {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await fetch(`${WWW_URL}/api/me`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+    } catch {
+      // Redirect even if sign-out request fails.
+    } finally {
+      window.location.replace(`${WWW_URL}/login`);
+    }
+  };
+
+  if (!authChecked || !authUser) {
+    return (
+      <div className="bg-canvas text-ink-secondary flex min-h-svh items-center justify-center font-mono text-[12.5px]">
+        Checking session...
+      </div>
+    );
+  }
 
   return (
     <div className="bg-canvas text-ink flex min-h-svh text-[13.5px]">
@@ -436,19 +510,21 @@ export function App() {
               aria-hidden="true"
               className="border-line bg-surface text-ink-soft flex h-8 w-8 shrink-0 items-center justify-center rounded-md border font-mono text-[11px] font-medium"
             >
-              AR
+              {getInitials(authUser.name, authUser.email)}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-ink truncate text-[12.5px] font-medium">Alex Rivera</div>
-              <div className="text-ink-muted truncate font-mono text-[11px]">
-                alex@cyberledger.dev
+              <div className="text-ink truncate text-[12.5px] font-medium">
+                {authUser.name || authUser.email.split("@")[0]}
               </div>
+              <div className="text-ink-muted truncate font-mono text-[11px]">{authUser.email}</div>
             </div>
-            <a
-              href={`${WWW_URL}/login`}
+            <button
+              type="button"
+              onClick={handleSignOut}
+              disabled={signingOut}
               title="Sign out"
               aria-label="Sign out"
-              className="text-ink-muted hover:bg-surface hover:text-ink flex h-7 w-7 items-center justify-center rounded-md transition-colors"
+              className="text-ink-muted hover:bg-surface hover:text-ink flex h-7 w-7 cursor-pointer items-center justify-center rounded-md transition-colors disabled:opacity-50"
             >
               <svg
                 width="14"
@@ -463,7 +539,7 @@ export function App() {
               >
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
               </svg>
-            </a>
+            </button>
           </div>
         </div>
       </aside>
