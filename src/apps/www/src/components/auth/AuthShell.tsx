@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
+
 import { SecuraLogo } from "@/components/brand/SecuraLogo";
 import { DASHBOARD_URL } from "@/lib/config";
 
@@ -52,8 +53,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
 
     if (!isSignup) {
       const nextInvalid: { email?: boolean; password?: boolean } = {};
-      if (!trimmedEmail || !EMAIL_RE.test(trimmedEmail))
-        nextInvalid.email = true;
+      if (!trimmedEmail || !EMAIL_RE.test(trimmedEmail)) nextInvalid.email = true;
       if (!password) nextInvalid.password = true;
 
       setInvalidFields(nextInvalid);
@@ -75,8 +75,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
       return;
     }
 
-    const nextInvalid: { name?: boolean; email?: boolean; password?: boolean } =
-      {};
+    const nextInvalid: { name?: boolean; email?: boolean; password?: boolean } = {};
     if (!trimmedName) nextInvalid.name = true;
     if (!trimmedEmail || !EMAIL_RE.test(trimmedEmail)) nextInvalid.email = true;
     if (password.length < 8) nextInvalid.password = true;
@@ -122,30 +121,27 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
         : "border-line bg-well text-ink-soft";
 
   return (
-    <div className="flex min-h-svh flex-col bg-canvas text-[14px] text-ink">
-      <header className="h-14 shrink-0 border-b border-line bg-canvas">
+    <div className="bg-canvas text-ink flex min-h-svh flex-col text-[14px]">
+      <header className="border-line bg-canvas h-14 shrink-0 border-b">
         <div className="mx-auto flex h-full w-full max-w-[1040px] items-center justify-between gap-4 px-4 sm:px-6">
           <SecuraLogo size={22} href="/" />
 
-          <nav
-            aria-label="Authentication navigation"
-            className="flex items-center gap-2"
-          >
+          <nav aria-label="Authentication navigation" className="flex items-center gap-2">
             <Link
               href="/"
-              className="hidden h-8 items-center rounded-md px-3 text-[13px] font-medium text-ink-secondary transition-colors hover:bg-surface hover:text-ink sm:inline-flex"
+              className="text-ink-secondary hover:bg-surface hover:text-ink hidden h-8 items-center rounded-md px-3 text-[13px] font-medium transition-colors sm:inline-flex"
             >
               Back to home
             </Link>
             <a
               href={DASHBOARD_URL}
-              className="inline-flex h-8 items-center rounded-md px-3 text-[13px] font-medium text-ink-secondary transition-colors hover:bg-surface hover:text-ink"
+              className="text-ink-secondary hover:bg-surface hover:text-ink inline-flex h-8 items-center rounded-md px-3 text-[13px] font-medium transition-colors"
             >
               Live console
             </a>
             <Link
               href={alternateHref}
-              className="inline-flex h-8 items-center rounded-md border border-line bg-panel px-3 text-[13px] font-medium text-ink transition-colors hover:border-line-hover hover:bg-surface"
+              className="border-line bg-panel text-ink hover:border-line-hover hover:bg-surface inline-flex h-8 items-center rounded-md border px-3 text-[13px] font-medium transition-colors"
             >
               {isSignup ? "Sign in" : "Create account"}
             </Link>
@@ -157,21 +153,19 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
         <div className="w-full max-w-[420px]">
           <section
             aria-labelledby="authHeading"
-            className="rounded-lg border border-line bg-panel p-5 sm:p-7"
+            className="border-line bg-panel rounded-lg border p-5 sm:p-7"
           >
             <div
               role="tablist"
               aria-label="Authentication mode"
-              className="grid grid-cols-2 gap-1 rounded-md border border-line bg-well p-1"
+              className="border-line bg-well grid grid-cols-2 gap-1 rounded-md border p-1"
             >
               <Link
                 href="/login"
                 role="tab"
                 aria-selected={!isSignup}
                 className={`flex h-8 items-center justify-center rounded text-[13px] font-medium transition-colors ${
-                  !isSignup
-                    ? "bg-surface text-ink shadow-xs"
-                    : "text-ink-secondary hover:text-ink"
+                  !isSignup ? "bg-surface text-ink shadow-xs" : "text-ink-secondary hover:text-ink"
                 }`}
               >
                 Sign in
@@ -181,9 +175,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                 role="tab"
                 aria-selected={isSignup}
                 className={`flex h-8 items-center justify-center rounded text-[13px] font-medium transition-colors ${
-                  isSignup
-                    ? "bg-surface text-ink shadow-xs"
-                    : "text-ink-secondary hover:text-ink"
+                  isSignup ? "bg-surface text-ink shadow-xs" : "text-ink-secondary hover:text-ink"
                 }`}
               >
                 Create account
@@ -193,11 +185,11 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
             <div className="mt-6">
               <h1
                 id="authHeading"
-                className="text-[20px] leading-tight font-semibold tracking-[-0.025em] text-ink"
+                className="text-ink text-[20px] leading-tight font-semibold tracking-[-0.025em]"
               >
                 {isSignup ? "Create your Secura account" : "Sign in to Secura"}
               </h1>
-              <p className="mt-1.5 text-[13.5px] leading-[1.5] text-ink-secondary">
+              <p className="text-ink-secondary mt-1.5 text-[13.5px] leading-[1.5]">
                 {isSignup
                   ? "Start protecting Linux servers with real-time detection and blocks."
                   : "Monitor Linux servers, inspect live incidents, and manage blocks."}
@@ -215,14 +207,9 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                     }.`,
                   })
                 }
-                className="flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-md border border-line bg-surface px-3.5 text-[13.5px] font-medium text-ink transition-colors hover:border-line-hover hover:bg-surface-hover"
+                className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-md border px-3.5 text-[13.5px] font-medium transition-colors"
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     fill="#EA4335"
                     d="M12 10.2v3.9h5.5c-.2 1.3-1.5 3.8-5.5 3.8-3.3 0-6-2.7-6-6s2.7-6 6-6c1.9 0 3.1.8 3.9 1.5l2.7-2.6C16.9 3.2 14.7 2.2 12 2.2 6.6 2.2 2.2 6.6 2.2 12s4.4 9.8 9.8 9.8c5.7 0 9.4-4 9.4-9.6 0-.6-.1-1.1-.2-1.6H12Z"
@@ -240,9 +227,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                     d="M21.4 12.2c0-.6-.1-1.1-.2-1.6H12v3.9h5.5c-.3 1.4-1.1 2.5-2.1 3.2l3 2.5c1.8-1.6 3-4.1 3-8Z"
                   />
                 </svg>
-                <span>
-                  {isSignup ? "Sign up with Google" : "Sign in with Google"}
-                </span>
+                <span>{isSignup ? "Sign up with Google" : "Sign in with Google"}</span>
               </button>
 
               <button
@@ -255,7 +240,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                     }.`,
                   })
                 }
-                className="flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-md border border-line bg-surface px-3.5 text-[13.5px] font-medium text-ink transition-colors hover:border-line-hover hover:bg-surface-hover"
+                className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover flex h-10 w-full cursor-pointer items-center justify-center gap-2.5 rounded-md border px-3.5 text-[13.5px] font-medium transition-colors"
               >
                 <svg
                   width="16"
@@ -270,31 +255,20 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                     d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"
                   />
                 </svg>
-                <span>
-                  {isSignup ? "Sign up with GitHub" : "Sign in with GitHub"}
-                </span>
+                <span>{isSignup ? "Sign up with GitHub" : "Sign in with GitHub"}</span>
               </button>
             </div>
 
-            <div className="my-5 flex items-center gap-3 text-[12px] text-ink-muted">
-              <span className="h-px flex-1 bg-line" aria-hidden="true" />
-              <span>
-                {isSignup ? "or sign up with email" : "or continue with email"}
-              </span>
-              <span className="h-px flex-1 bg-line" aria-hidden="true" />
+            <div className="text-ink-muted my-5 flex items-center gap-3 text-[12px]">
+              <span className="bg-line h-px flex-1" aria-hidden="true" />
+              <span>{isSignup ? "or sign up with email" : "or continue with email"}</span>
+              <span className="bg-line h-px flex-1" aria-hidden="true" />
             </div>
 
-            <form
-              onSubmit={handleSubmit}
-              noValidate
-              className="flex flex-col gap-4"
-            >
+            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
               {isSignup && (
                 <div className="flex flex-col gap-1.5">
-                  <label
-                    htmlFor="fullName"
-                    className="text-[12.5px] font-medium text-ink-soft"
-                  >
+                  <label htmlFor="fullName" className="text-ink-soft text-[12.5px] font-medium">
                     Full name
                   </label>
                   <input
@@ -310,7 +284,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                       if (invalidFields.name)
                         setInvalidFields((prev) => ({ ...prev, name: false }));
                     }}
-                    className={`h-10 w-full rounded-md border bg-well px-3 text-[13.5px] text-ink placeholder:text-ink-muted focus:border-line-strong focus:outline-none ${
+                    className={`bg-well text-ink placeholder:text-ink-muted focus:border-line-strong h-10 w-full rounded-md border px-3 text-[13.5px] focus:outline-none ${
                       invalidFields.name ? "border-danger" : "border-line"
                     }`}
                   />
@@ -318,10 +292,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               )}
 
               <div className="flex flex-col gap-1.5">
-                <label
-                  htmlFor="email"
-                  className="text-[12.5px] font-medium text-ink-soft"
-                >
+                <label htmlFor="email" className="text-ink-soft text-[12.5px] font-medium">
                   {isSignup ? "Work email" : "Email"}
                 </label>
                 <input
@@ -339,7 +310,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                       setInvalidFields((prev) => ({ ...prev, email: false }));
                     }
                   }}
-                  className={`h-10 w-full rounded-md border bg-well px-3 text-[13.5px] text-ink placeholder:text-ink-muted focus:border-line-strong focus:outline-none ${
+                  className={`bg-well text-ink placeholder:text-ink-muted focus:border-line-strong h-10 w-full rounded-md border px-3 text-[13.5px] focus:outline-none ${
                     invalidFields.email ? "border-danger" : "border-line"
                   }`}
                 />
@@ -347,10 +318,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
 
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between gap-2">
-                  <label
-                    htmlFor="password"
-                    className="text-[12.5px] font-medium text-ink-soft"
-                  >
+                  <label htmlFor="password" className="text-ink-soft text-[12.5px] font-medium">
                     Password
                   </label>
                   {!isSignup && (
@@ -363,7 +331,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                             "Connect your authentication backend to send password reset links.",
                         })
                       }
-                      className="cursor-pointer text-[12px] text-ink-secondary transition-colors hover:text-ink"
+                      className="text-ink-secondary hover:text-ink cursor-pointer text-[12px] transition-colors"
                     >
                       Forgot password?
                     </button>
@@ -375,12 +343,8 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    autoComplete={
-                      isSignup ? "new-password" : "current-password"
-                    }
-                    placeholder={
-                      isSignup ? "At least 8 characters" : "Enter your password"
-                    }
+                    autoComplete={isSignup ? "new-password" : "current-password"}
+                    placeholder={isSignup ? "At least 8 characters" : "Enter your password"}
                     required
                     value={password}
                     aria-invalid={invalidFields.password || undefined}
@@ -393,18 +357,16 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                         }));
                       }
                     }}
-                    className={`h-10 w-full rounded-md border bg-well pr-10 pl-3 text-[13.5px] text-ink placeholder:text-ink-muted focus:border-line-strong focus:outline-none ${
+                    className={`bg-well text-ink placeholder:text-ink-muted focus:border-line-strong h-10 w-full rounded-md border pr-10 pl-3 text-[13.5px] focus:outline-none ${
                       invalidFields.password ? "border-danger" : "border-line"
                     }`}
                   />
                   <button
                     type="button"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     aria-pressed={showPassword}
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-ink-muted transition-colors hover:text-ink"
+                    className="text-ink-muted hover:text-ink absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center transition-colors"
                   >
                     {showPassword ? (
                       <svg
@@ -443,14 +405,8 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                 </div>
 
                 {isSignup && (
-                  <div
-                    aria-live="polite"
-                    className="mt-1 flex items-center justify-between gap-3"
-                  >
-                    <div
-                      aria-hidden="true"
-                      className="grid flex-1 grid-cols-4 gap-1.5"
-                    >
+                  <div aria-live="polite" className="mt-1 flex items-center justify-between gap-3">
+                    <div aria-hidden="true" className="grid flex-1 grid-cols-4 gap-1.5">
                       {[0, 1, 2, 3].map((idx) => (
                         <span
                           key={idx}
@@ -458,9 +414,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                         />
                       ))}
                     </div>
-                    <span
-                      className={`font-mono text-[11px] ${strengthLabelColor}`}
-                    >
+                    <span className={`font-mono text-[11px] ${strengthLabelColor}`}>
                       {strength.label}
                     </span>
                   </div>
@@ -468,12 +422,12 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               </div>
 
               {!isSignup && (
-                <label className="flex cursor-pointer items-center gap-2 text-[13px] text-ink-secondary">
+                <label className="text-ink-secondary flex cursor-pointer items-center gap-2 text-[13px]">
                   <input
                     type="checkbox"
                     checked={remember}
                     onChange={(e) => setRemember(e.target.checked)}
-                    className="h-3.5 w-3.5 rounded border-line bg-well accent-accent"
+                    className="border-line bg-well accent-accent h-3.5 w-3.5 rounded"
                   />
                   <span>Keep me signed in for 30 days</span>
                 </label>
@@ -481,25 +435,24 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
 
               <button
                 type="submit"
-                className="mt-1 flex h-10 w-full cursor-pointer items-center justify-center rounded-md bg-ink px-4 text-[13.5px] font-medium text-canvas transition-opacity hover:opacity-90"
+                className="bg-ink text-canvas mt-1 flex h-10 w-full cursor-pointer items-center justify-center rounded-md px-4 text-[13.5px] font-medium transition-opacity hover:opacity-90"
               >
                 {isSignup ? "Create account" : "Sign in"}
               </button>
             </form>
 
             {isSignup && (
-              <p className="mt-3.5 text-center text-[12px] leading-[1.5] text-ink-muted">
+              <p className="text-ink-muted mt-3.5 text-center text-[12px] leading-[1.5]">
                 By creating an account, you agree to Secura&apos;s{" "}
                 <button
                   type="button"
                   onClick={() =>
                     setNotice({
                       tone: "info",
-                      message:
-                        "Link your hosted Terms of Service document before publishing.",
+                      message: "Link your hosted Terms of Service document before publishing.",
                     })
                   }
-                  className="cursor-pointer text-ink-secondary underline underline-offset-2 hover:text-ink"
+                  className="text-ink-secondary hover:text-ink cursor-pointer underline underline-offset-2"
                 >
                   Terms
                 </button>{" "}
@@ -509,11 +462,10 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                   onClick={() =>
                     setNotice({
                       tone: "info",
-                      message:
-                        "Link your hosted Privacy Policy document before publishing.",
+                      message: "Link your hosted Privacy Policy document before publishing.",
                     })
                   }
-                  className="cursor-pointer text-ink-secondary underline underline-offset-2 hover:text-ink"
+                  className="text-ink-secondary hover:text-ink cursor-pointer underline underline-offset-2"
                 >
                   Privacy Policy
                 </button>
@@ -559,20 +511,18 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               </div>
             )}
 
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-line pt-4 text-[13px] text-ink-secondary">
-              <span>
-                {isSignup ? "Already have an account?" : "New to Secura?"}
-              </span>
+            <div className="border-line text-ink-secondary mt-5 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-[13px]">
+              <span>{isSignup ? "Already have an account?" : "New to Secura?"}</span>
               <Link
                 href={alternateHref}
-                className="font-medium text-ink transition-colors hover:text-accent"
+                className="text-ink hover:text-accent font-medium transition-colors"
               >
                 {isSignup ? "Sign in" : "Create account"}
               </Link>
             </div>
           </section>
 
-          <footer className="mt-4 flex flex-wrap items-center justify-between gap-3 px-1 text-[12px] text-ink-muted">
+          <footer className="text-ink-muted mt-4 flex flex-wrap items-center justify-between gap-3 px-1 text-[12px]">
             {isSignup ? (
               <div className="flex flex-wrap items-center gap-4">
                 <span className="inline-flex items-center gap-1.5">
@@ -646,10 +596,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
               </div>
             )}
 
-            <a
-              href={DASHBOARD_URL}
-              className="text-ink-secondary transition-colors hover:text-ink"
-            >
+            <a href={DASHBOARD_URL} className="text-ink-secondary hover:text-ink transition-colors">
               Inspect console
             </a>
           </footer>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { DASHBOARD_URL } from "@/lib/config";
 
 interface StageInfo {
@@ -232,9 +233,7 @@ export function WorkbenchPreview() {
   const [ingestionRate, setIngestionRate] = useState("4.1 ms avg ingest");
   const [highestStage, setHighestStage] = useState(-1);
   const [selectedStage, setSelectedStage] = useState(-1);
-  const [manualBlockOverride, setManualBlockOverride] = useState<
-    boolean | null
-  >(null);
+  const [manualBlockOverride, setManualBlockOverride] = useState<boolean | null>(null);
   const [paused, setPaused] = useState(false);
 
   const eventIdxRef = useRef(0);
@@ -248,10 +247,7 @@ export function WorkbenchPreview() {
     eventIdxRef.current = idx + 1;
     rowIdRef.current += 1;
 
-    if (
-      eventIdxRef.current % EVENT_SCRIPT.length === 1 &&
-      eventIdxRef.current > 1
-    ) {
+    if (eventIdxRef.current % EVENT_SCRIPT.length === 1 && eventIdxRef.current > 1) {
       highestStageRef.current = -1;
       setHighestStage(-1);
       setManualBlockOverride(null);
@@ -323,8 +319,7 @@ export function WorkbenchPreview() {
 
   const effectiveIdx = selectedStage < 0 ? 0 : selectedStage;
   const stageData = STAGES[effectiveIdx];
-  const isBlocked =
-    manualBlockOverride !== null ? manualBlockOverride : stageData.blocked;
+  const isBlocked = manualBlockOverride !== null ? manualBlockOverride : stageData.blocked;
 
   const handleToggleBlock = () => {
     const nextBlocked = !isBlocked;
@@ -385,11 +380,9 @@ export function WorkbenchPreview() {
         manualBlockOverride === true
           ? "Manual block applied for 185.220.101.42. Verified outside trusted subnets; signed nftables drop rule is active on web-prod-02 and logged to the audit trail."
           : stageData.prose;
-      ruleText =
-        "nft add element inet secura blocked { 185.220.101.42 timeout 4h }";
+      ruleText = "nft add element inet secura blocked { 185.220.101.42 timeout 4h }";
     } else {
-      statusLabel =
-        manualBlockOverride === false ? "Rule lifted" : stageData.status;
+      statusLabel = manualBlockOverride === false ? "Rule lifted" : stageData.status;
       statusChipClass = "border-accent/35 bg-accent/12 text-accent";
       hostDotClass =
         stageData.dotTone === "danger"
@@ -414,30 +407,26 @@ export function WorkbenchPreview() {
     <section
       id="product"
       aria-labelledby="product-heading"
-      className="border-t border-line py-20 sm:py-24"
+      className="border-line border-t py-20 sm:py-24"
     >
       <div className="mx-auto w-full max-w-[1120px] px-5 sm:px-7">
         <div className="mb-10 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
           <div className="max-w-[600px]">
             <h2
               id="product-heading"
-              className="text-[clamp(1.65rem,3vw,2.2rem)] leading-[1.15] font-semibold tracking-[-0.03em] text-ink"
+              className="text-ink text-[clamp(1.65rem,3vw,2.2rem)] leading-[1.15] font-semibold tracking-[-0.03em]"
             >
               Thousands of logs. Only what matters.
             </h2>
-            <p className="mt-3 text-[15px] leading-[1.6] text-ink-secondary">
-              Secura reads every line your servers produce, ignores the noise,
-              and acts the moment something turns dangerous. Watch a single
-              attacker unfold on{" "}
-              <span className="font-mono text-[13.5px] text-ink-soft">
-                web-prod-02
-              </span>{" "}
-              below.
+            <p className="text-ink-secondary mt-3 text-[15px] leading-[1.6]">
+              Secura reads every line your servers produce, ignores the noise, and acts the moment
+              something turns dangerous. Watch a single attacker unfold on{" "}
+              <span className="text-ink-soft font-mono text-[13.5px]">web-prod-02</span> below.
             </p>
           </div>
           <a
             href={DASHBOARD_URL}
-            className="inline-flex h-9 shrink-0 items-center rounded-md border border-line bg-panel px-3.5 text-[13px] font-medium text-ink transition-colors hover:border-line-hover hover:bg-surface"
+            className="border-line bg-panel text-ink hover:border-line-hover hover:bg-surface inline-flex h-9 shrink-0 items-center rounded-md border px-3.5 text-[13px] font-medium transition-colors"
           >
             Inspect full console
           </a>
@@ -446,18 +435,13 @@ export function WorkbenchPreview() {
         <div
           role="region"
           aria-label="Interactive threat containment workbench"
-          className="overflow-hidden rounded-lg border border-line bg-panel"
+          className="border-line bg-panel overflow-hidden rounded-lg border"
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line bg-surface/60 px-4 py-3">
-            <div className="flex flex-wrap items-center gap-2.5 text-[12.5px] text-ink-secondary">
-              <span
-                className={`h-2 w-2 rounded-full ${hostDotClass}`}
-                aria-hidden="true"
-              />
-              <span className="font-mono text-[12.5px] font-medium text-ink">
-                web-prod-02
-              </span>
-              <span className="h-3.5 w-px bg-line-strong" aria-hidden="true" />
+          <div className="border-line bg-surface/60 flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+            <div className="text-ink-secondary flex flex-wrap items-center gap-2.5 text-[12.5px]">
+              <span className={`h-2 w-2 rounded-full ${hostDotClass}`} aria-hidden="true" />
+              <span className="text-ink font-mono text-[12.5px] font-medium">web-prod-02</span>
+              <span className="bg-line-strong h-3.5 w-px" aria-hidden="true" />
               <span>
                 {paused
                   ? "Stream paused for inspection"
@@ -470,14 +454,14 @@ export function WorkbenchPreview() {
                 type="button"
                 aria-pressed={paused}
                 onClick={() => setPaused((p) => !p)}
-                className="inline-flex h-7 cursor-pointer items-center rounded-md border border-line bg-panel px-2.5 text-[12px] font-medium text-ink-soft transition-colors hover:border-line-hover hover:bg-surface hover:text-ink"
+                className="border-line bg-panel text-ink-soft hover:border-line-hover hover:bg-surface hover:text-ink inline-flex h-7 cursor-pointer items-center rounded-md border px-2.5 text-[12px] font-medium transition-colors"
               >
                 {paused ? "Resume stream" : "Pause stream"}
               </button>
               <button
                 type="button"
                 onClick={handleReplay}
-                className="inline-flex h-7 cursor-pointer items-center rounded-md border border-line bg-panel px-2.5 text-[12px] font-medium text-ink-soft transition-colors hover:border-line-hover hover:bg-surface hover:text-ink"
+                className="border-line bg-panel text-ink-soft hover:border-line-hover hover:bg-surface hover:text-ink inline-flex h-7 cursor-pointer items-center rounded-md border px-2.5 text-[12px] font-medium transition-colors"
               >
                 Replay sequence
               </button>
@@ -485,19 +469,17 @@ export function WorkbenchPreview() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1.12fr_1fr]">
-            <div className="flex flex-col border-b border-line lg:border-r lg:border-b-0">
-              <div className="flex items-center justify-between border-b border-line bg-well/60 px-4 py-2.5 text-[12px]">
-                <strong className="font-medium text-ink-soft">
-                  Live host events
-                </strong>
-                <span className="font-mono text-[11.5px] text-ink-muted tabular-nums">
+            <div className="border-line flex flex-col border-b lg:border-r lg:border-b-0">
+              <div className="border-line bg-well/60 flex items-center justify-between border-b px-4 py-2.5 text-[12px]">
+                <strong className="text-ink-soft font-medium">Live host events</strong>
+                <span className="text-ink-muted font-mono text-[11.5px] tabular-nums">
                   {ingestionRate}
                 </span>
               </div>
 
               <div
                 aria-live="off"
-                className="flex min-h-[340px] flex-1 flex-col justify-end gap-1 bg-well p-3 font-mono text-[11.5px] tabular-nums"
+                className="bg-well flex min-h-[340px] flex-1 flex-col justify-end gap-1 p-3 font-mono text-[11.5px] tabular-nums"
               >
                 {rows.map((row) => {
                   const rowBg =
@@ -524,9 +506,7 @@ export function WorkbenchPreview() {
                       className={`grid grid-cols-[62px_112px_1fr_auto] items-center gap-2 rounded px-2 py-1 ${rowBg}`}
                     >
                       <span className="text-ink-muted">{row.ts}</span>
-                      <span className="truncate text-ink-secondary">
-                        {row.ip}
-                      </span>
+                      <span className="text-ink-secondary truncate">{row.ip}</span>
                       <span className="truncate">{row.msg}</span>
                       <span
                         className={`rounded border px-1.5 py-0.5 text-[10.5px] leading-none ${tagStyle}`}
@@ -538,26 +518,25 @@ export function WorkbenchPreview() {
                 })}
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-panel px-4 py-2.5 text-[12px] text-ink-muted">
+              <div className="border-line bg-panel text-ink-muted flex flex-wrap items-center justify-between gap-2 border-t px-4 py-2.5 text-[12px]">
                 <span>Noise filtered locally before AI triage</span>
                 <div className="flex items-center gap-4 font-mono text-[11.5px] tabular-nums">
                   <span>
-                    Events{" "}
-                    <b className="font-medium text-ink-soft">{totalEvents}</b>
+                    Events <b className="text-ink-soft font-medium">{totalEvents}</b>
                   </span>
                   <span>
-                    Incidents <b className="font-medium text-ink-soft">1</b>
+                    Incidents <b className="text-ink-soft font-medium">1</b>
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col bg-panel">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3">
+            <div className="bg-panel flex flex-col">
+              <div className="border-line flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
                 <div className="flex items-center gap-2.5">
                   <div
                     aria-hidden="true"
-                    className="flex h-7 w-7 items-center justify-center rounded-md border border-line bg-surface text-ink-soft"
+                    className="border-line bg-surface text-ink-soft flex h-7 w-7 items-center justify-center rounded-md border"
                   >
                     <svg
                       width="13"
@@ -573,38 +552,27 @@ export function WorkbenchPreview() {
                     </svg>
                   </div>
                   <div className="flex flex-col leading-tight">
-                    <span className="text-[13px] font-semibold text-ink">
-                      Incident INC-4092
-                    </span>
-                    <span className="font-mono text-[11.5px] text-ink-muted">
+                    <span className="text-ink text-[13px] font-semibold">Incident INC-4092</span>
+                    <span className="text-ink-muted font-mono text-[11.5px]">
                       Source 185.220.101.42
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1.5 font-mono text-[11px] tabular-nums">
-                  <span
-                    className={`rounded border px-2 py-0.5 font-medium ${riskChipClass}`}
-                  >
+                  <span className={`rounded border px-2 py-0.5 font-medium ${riskChipClass}`}>
                     {riskLabel}
                   </span>
-                  <span
-                    className={`rounded border px-2 py-0.5 font-medium ${statusChipClass}`}
-                  >
+                  <span className={`rounded border px-2 py-0.5 font-medium ${statusChipClass}`}>
                     {statusLabel}
                   </span>
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col gap-4 p-4">
-                <p className="text-[13.5px] leading-[1.6] text-ink-soft">
-                  {prose}
-                </p>
+                <p className="text-ink-soft text-[13.5px] leading-[1.6]">{prose}</p>
 
-                <div
-                  aria-label="Mapped MITRE ATT&CK techniques"
-                  className="flex flex-wrap gap-1.5"
-                >
+                <div aria-label="Mapped MITRE ATT&CK techniques" className="flex flex-wrap gap-1.5">
                   {MITRE_CHIPS.map((chip) => {
                     const matched = activeMitre.includes(chip.id);
                     return (
@@ -623,13 +591,12 @@ export function WorkbenchPreview() {
                 </div>
 
                 <div>
-                  <div className="mb-2 text-[11.5px] font-medium text-ink-muted">
+                  <div className="text-ink-muted mb-2 text-[11.5px] font-medium">
                     Correlated attack trace (select any stage to inspect)
                   </div>
                   <ol className="flex flex-col gap-1.5">
                     {TRACE_ITEMS.map((step, idx) => {
-                      const reached =
-                        idx <= highestStage || (isBlocked && idx === 3);
+                      const reached = idx <= highestStage || (isBlocked && idx === 3);
                       const selected = idx === selectedStage;
                       const dotColor =
                         step.tone === "bad"
@@ -649,24 +616,22 @@ export function WorkbenchPreview() {
                                 ? "border-line-strong bg-surface text-ink"
                                 : reached
                                   ? "border-line bg-well/60 text-ink-soft hover:border-line-hover hover:bg-surface/60"
-                                  : "border-transparent bg-well/30 text-ink-muted hover:border-line hover:text-ink-soft"
+                                  : "bg-well/30 text-ink-muted hover:border-line hover:text-ink-soft border-transparent"
                             }`}
                           >
                             <span className="flex min-w-0 items-center gap-2.5">
                               <span
                                 aria-hidden="true"
                                 className={`h-2 w-2 shrink-0 rounded-full ${
-                                  reached || selected
-                                    ? dotColor
-                                    : "bg-line-strong"
+                                  reached || selected ? dotColor : "bg-line-strong"
                                 }`}
                               />
-                              <span className="font-mono text-[11px] text-ink-muted">
+                              <span className="text-ink-muted font-mono text-[11px]">
                                 {step.num}
                               </span>
                               <span className="truncate">{step.label}</span>
                             </span>
-                            <span className="shrink-0 font-mono text-[11px] text-ink-secondary tabular-nums">
+                            <span className="text-ink-secondary shrink-0 font-mono text-[11px] tabular-nums">
                               {step.score}
                             </span>
                           </button>
@@ -677,8 +642,8 @@ export function WorkbenchPreview() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line bg-well/50 px-4 py-3">
-                <span className="truncate font-mono text-[11.5px] text-ink-secondary">
+              <div className="border-line bg-well/50 flex flex-wrap items-center justify-between gap-2 border-t px-4 py-3">
+                <span className="text-ink-secondary truncate font-mono text-[11.5px]">
                   {ruleText}
                 </span>
                 <button
@@ -703,10 +668,7 @@ export function WorkbenchPreview() {
             "Suspicious IPs tracked across auth, web, and firewall logs over time.",
             "Attackers blocked automatically before lateral movement or data loss.",
           ].map((point) => (
-            <div
-              key={point}
-              className="flex items-start gap-2.5 text-[13.5px] text-ink-secondary"
-            >
+            <div key={point} className="text-ink-secondary flex items-start gap-2.5 text-[13.5px]">
               <svg
                 width="16"
                 height="16"
@@ -717,7 +679,7 @@ export function WorkbenchPreview() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
-                className="mt-0.5 shrink-0 text-safe"
+                className="text-safe mt-0.5 shrink-0"
               >
                 <path d="m5 12 5 5L20 7" />
               </svg>

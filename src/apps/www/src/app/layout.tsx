@@ -38,9 +38,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-canvas font-sans text-ink antialiased">
-        {children}
-      </body>
+      <body className="bg-canvas text-ink min-h-screen font-sans antialiased">{children}</body>
     </html>
   );
 }

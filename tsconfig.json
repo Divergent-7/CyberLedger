@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@secura/ui": ["./src/packages/ui/src/index.ts"],
+      "@secura/ui/*": ["./src/packages/ui/src/*"]
+    }
+  },
+  "files": [],
+  "references": [{ "path": "./src/packages/ui" }, { "path": "./src/apps/www" }]
+}
