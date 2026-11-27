@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative flex min-h-[calc(100svh-60px)] flex-col items-center justify-center overflow-hidden px-5 pt-14 pb-10 sm:px-7"
+      className="relative flex min-h-[calc(100svh-60px)] flex-col items-center justify-center overflow-hidden px-5 pt-10 pb-8 sm:px-7"
     >
       {/* Subtle architectural grid masked toward the edges */}
       <div
@@ -66,7 +66,7 @@ export function Hero() {
         </div>
 
         {/* Divider + capability highlights */}
-        <div className="border-line/80 mt-12 w-full max-w-[490px] border-t pt-5">
+        <div className="border-line/80 mt-12 w-full max-w-[580px] border-t pt-5">
           <ul
             aria-label="Core capabilities"
             className="text-ink-muted flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-[12.5px]"
@@ -131,9 +131,35 @@ export function Hero() {
       <a
         href="#product"
         aria-label="Scroll to product overview"
-        className="border-line-strong/80 hover:border-ink-muted relative z-10 mt-10 flex h-8 w-5 items-start justify-center rounded-full border pt-1.5 transition-colors"
+        className="text-ink-muted hover:text-ink-soft relative z-10 mt-8 inline-flex flex-col items-center gap-1 transition-colors"
       >
-        <span className="bg-ink-muted h-1.5 w-0.5 rounded-full" />
+        <svg
+          width="24"
+          height="36"
+          viewBox="0 0 24 36"
+          fill="none"
+          aria-hidden="true"
+          className="overflow-visible"
+        >
+          <rect
+            x="1.5"
+            y="1.5"
+            width="21"
+            height="33"
+            rx="10.5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          />
+          <rect
+            x="10.75"
+            y="8"
+            width="2.5"
+            height="6"
+            rx="1.25"
+            fill="currentColor"
+            className="animate-scroll-wheel motion-reduce:animate-none"
+          />
+        </svg>
       </a>
     </section>
   );

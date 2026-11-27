@@ -29,9 +29,13 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-touch-icon.png",
   },
+  other: {
+    "darkreader-lock": "true",
+  },
 };
 
 export const viewport: Viewport = {
+  colorScheme: "dark",
   themeColor: "#14120B",
 };
 

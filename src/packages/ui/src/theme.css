@@ -22,6 +22,8 @@
 
   --font-sans: var(--font-geist), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --animate-scroll-wheel: scroll-wheel 1.8s ease-in-out infinite;
 }
 
 @layer base {
@@ -44,5 +46,20 @@
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
+  }
+}
+
+@keyframes scroll-wheel {
+  0% {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
+  70% {
+    opacity: 0.25;
+    transform: translateY(7px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(9px);
   }
 }

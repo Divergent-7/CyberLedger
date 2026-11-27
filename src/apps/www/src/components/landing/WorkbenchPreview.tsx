@@ -407,7 +407,7 @@ export function WorkbenchPreview() {
     <section
       id="product"
       aria-labelledby="product-heading"
-      className="border-line border-t py-20 sm:py-24"
+      className="border-line scroll-mt-[60px] border-t py-20 sm:py-24"
     >
       <div className="mx-auto w-full max-w-[1120px] px-5 sm:px-7">
         <div className="mb-10 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
