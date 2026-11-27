@@ -7,12 +7,18 @@
   ],
   "scripts": {
     "dev": "bun --filter @secura/www dev",
+    "dev:api": "bun --filter @secura/api dev",
     "dev:www": "bun --filter @secura/www dev",
+    "start:api": "bun --filter @secura/api start",
     "build": "bun --filter './src/apps/*' build",
     "check": "bun --workspaces run check",
     "lint": "bun lint",
     "fmt": "bun fmt",
     "fmt:check": "bun fmt --check",
     "test": "bun test"
+  },
+  "dependencies": {
+    "@neon/config": "^1.14.8",
+    "@neon/env": "^2.1.11"
   }
 }
