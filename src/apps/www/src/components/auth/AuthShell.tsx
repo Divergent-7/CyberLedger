@@ -4,6 +4,7 @@ import Link from "next/link";
 import { type FormEvent, useState } from "react";
 
 import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
+import { authClient } from "@/lib/auth/client";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export type AuthMode = "login" | "signup";
@@ -43,11 +44,45 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
     password?: boolean;
   }>({});
   const [notice, setNotice] = useState<NoticeState | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+
+  const { data: session, refetch: refetchSession } = authClient.useSession();
+  const currentUser = session?.user ?? null;
 
   const strength = getPasswordStrength(password);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    setNotice(null);
+    try {
+      const { error } = await authClient.signOut();
+      if (error) {
+        setNotice({
+          tone: "error",
+          message: error.message || "Could not sign out. Please try again.",
+        });
+        return;
+      }
+      await refetchSession();
+      setNotice({
+        tone: "info",
+        message: "You have been signed out.",
+      });
+    } catch (err) {
+      setNotice({
+        tone: "error",
+        message: err instanceof Error ? err.message : "Could not sign out. Please try again.",
+      });
+    } finally {
+      setSigningOut(false);
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (submitting) return;
+
     const trimmedEmail = email.trim();
     const trimmedName = fullName.trim();
 
@@ -67,11 +102,36 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
         return;
       }
 
-      setNotice({
-        tone: "success",
-        message: `Ready to sign in ${trimmedEmail} once authentication is connected.`,
-        link: { href: DASHBOARD_URL, label: "Open live console" },
-      });
+      setSubmitting(true);
+      setNotice(null);
+      try {
+        const { data, error } = await authClient.signIn.email({
+          email: trimmedEmail,
+          password,
+          rememberMe: remember,
+        });
+        if (error) {
+          setNotice({
+            tone: "error",
+            message: error.message || "Invalid email or password.",
+          });
+          return;
+        }
+        await refetchSession();
+        setPassword("");
+        setNotice({
+          tone: "success",
+          message: `Signed in as ${data?.user?.email ?? trimmedEmail}.`,
+          link: { href: DASHBOARD_URL, label: "Open live console" },
+        });
+      } catch (err) {
+        setNotice({
+          tone: "error",
+          message: err instanceof Error ? err.message : "Unable to sign in right now.",
+        });
+      } finally {
+        setSubmitting(false);
+      }
       return;
     }
 
@@ -90,11 +150,36 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
       return;
     }
 
-    setNotice({
-      tone: "success",
-      message: `Account ready for ${trimmedEmail}. Connect registration to onboard your first server.`,
-      link: { href: DASHBOARD_URL, label: "Open live console" },
-    });
+    setSubmitting(true);
+    setNotice(null);
+    try {
+      const { data, error } = await authClient.signUp.email({
+        email: trimmedEmail,
+        password,
+        name: trimmedName,
+      });
+      if (error) {
+        setNotice({
+          tone: "error",
+          message: error.message || "Could not create account.",
+        });
+        return;
+      }
+      await refetchSession();
+      setPassword("");
+      setNotice({
+        tone: "success",
+        message: `Account created for ${data?.user?.email ?? trimmedEmail}.`,
+        link: { href: DASHBOARD_URL, label: "Open live console" },
+      });
+    } catch (err) {
+      setNotice({
+        tone: "error",
+        message: err instanceof Error ? err.message : "Unable to create account right now.",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const strengthBarColor = (barIdx: number) => {
@@ -195,6 +280,27 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                   : "Monitor Linux servers, inspect live incidents, and manage blocks."}
               </p>
             </div>
+
+            {currentUser && (
+              <div className="border-safe/35 bg-safe/10 mt-5 flex items-center justify-between gap-3 rounded-md border px-3.5 py-2.5 text-[12.5px]">
+                <div className="min-w-0">
+                  <p className="text-ink truncate font-medium">
+                    Signed in as {currentUser.name || currentUser.email}
+                  </p>
+                  {currentUser.name && (
+                    <p className="text-ink-secondary truncate text-[12px]">{currentUser.email}</p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  disabled={signingOut}
+                  onClick={handleSignOut}
+                  className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover shrink-0 cursor-pointer rounded-md border px-2.5 py-1 text-[12px] font-medium transition-colors disabled:opacity-60"
+                >
+                  {signingOut ? "Signing out..." : "Sign out"}
+                </button>
+              </div>
+            )}
 
             <div className="mt-5 flex flex-col gap-2.5">
               <button
@@ -435,9 +541,16 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
 
               <button
                 type="submit"
-                className="bg-ink text-canvas mt-1 flex h-10 w-full cursor-pointer items-center justify-center rounded-md px-4 text-[13.5px] font-medium transition-opacity hover:opacity-90"
+                disabled={submitting}
+                className="bg-ink text-canvas mt-1 flex h-10 w-full cursor-pointer items-center justify-center rounded-md px-4 text-[13.5px] font-medium transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isSignup ? "Create account" : "Sign in"}
+                {submitting
+                  ? isSignup
+                    ? "Creating account..."
+                    : "Signing in..."
+                  : isSignup
+                    ? "Create account"
+                    : "Sign in"}
               </button>
             </form>
 
