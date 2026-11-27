@@ -45,39 +45,8 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
   }>({});
   const [notice, setNotice] = useState<NoticeState | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [signingOut, setSigningOut] = useState(false);
-
-  const { data: session, refetch: refetchSession } = authClient.useSession();
-  const currentUser = session?.user ?? null;
 
   const strength = getPasswordStrength(password);
-
-  const handleSignOut = async () => {
-    setSigningOut(true);
-    setNotice(null);
-    try {
-      const { error } = await authClient.signOut();
-      if (error) {
-        setNotice({
-          tone: "error",
-          message: error.message || "Could not sign out. Please try again.",
-        });
-        return;
-      }
-      await refetchSession();
-      setNotice({
-        tone: "info",
-        message: "You have been signed out.",
-      });
-    } catch (err) {
-      setNotice({
-        tone: "error",
-        message: err instanceof Error ? err.message : "Could not sign out. Please try again.",
-      });
-    } finally {
-      setSigningOut(false);
-    }
-  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,7 +74,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
       setSubmitting(true);
       setNotice(null);
       try {
-        const { data, error } = await authClient.signIn.email({
+        const { error } = await authClient.signIn.email({
           email: trimmedEmail,
           password,
           rememberMe: remember,
@@ -117,13 +86,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
           });
           return;
         }
-        await refetchSession();
-        setPassword("");
-        setNotice({
-          tone: "success",
-          message: `Signed in as ${data?.user?.email ?? trimmedEmail}.`,
-          link: { href: DASHBOARD_URL, label: "Open live console" },
-        });
+        window.location.assign(DASHBOARD_URL);
       } catch (err) {
         setNotice({
           tone: "error",
@@ -153,7 +116,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
     setSubmitting(true);
     setNotice(null);
     try {
-      const { data, error } = await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         email: trimmedEmail,
         password,
         name: trimmedName,
@@ -165,13 +128,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
         });
         return;
       }
-      await refetchSession();
-      setPassword("");
-      setNotice({
-        tone: "success",
-        message: `Account created for ${data?.user?.email ?? trimmedEmail}.`,
-        link: { href: DASHBOARD_URL, label: "Open live console" },
-      });
+      window.location.assign(DASHBOARD_URL);
     } catch (err) {
       setNotice({
         tone: "error",
@@ -280,27 +237,6 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                   : "Monitor Linux servers, inspect live incidents, and manage blocks."}
               </p>
             </div>
-
-            {currentUser && (
-              <div className="border-safe/35 bg-safe/10 mt-5 flex items-center justify-between gap-3 rounded-md border px-3.5 py-2.5 text-[12.5px]">
-                <div className="min-w-0">
-                  <p className="text-ink truncate font-medium">
-                    Signed in as {currentUser.name || currentUser.email}
-                  </p>
-                  {currentUser.name && (
-                    <p className="text-ink-secondary truncate text-[12px]">{currentUser.email}</p>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  disabled={signingOut}
-                  onClick={handleSignOut}
-                  className="border-line bg-surface text-ink hover:border-line-hover hover:bg-surface-hover shrink-0 cursor-pointer rounded-md border px-2.5 py-1 text-[12px] font-medium transition-colors disabled:opacity-60"
-                >
-                  {signingOut ? "Signing out..." : "Sign out"}
-                </button>
-              </div>
-            )}
 
             <div className="mt-5 flex flex-col gap-2.5">
               <button
