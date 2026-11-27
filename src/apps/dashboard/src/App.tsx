@@ -38,7 +38,8 @@ function getInitials(name?: string | null, email?: string): string {
 
 export function App() {
   const [authUser, setAuthUser] = useState<AuthUser | null>(null);
-  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [authState, setAuthState] = useState<"loading" | "authenticated" | "error">("loading");
+  const [authRetryKey, setAuthRetryKey] = useState<number>(0);
   const [signingOut, setSigningOut] = useState<boolean>(false);
 
   const [tab, setTab] = useState<TabId>("overview");
@@ -79,14 +80,19 @@ export function App() {
 
   useEffect(() => {
     let cancelled = false;
+    setAuthState("loading");
 
     async function checkSession() {
       try {
         const res = await fetch(`${WWW_URL}/api/me`, {
           credentials: "include",
         });
-        if (!res.ok) {
+        if (res.status === 401 || res.status === 403) {
           if (!cancelled) window.location.replace(`${WWW_URL}/login`);
+          return;
+        }
+        if (!res.ok) {
+          if (!cancelled) setAuthState("error");
           return;
         }
         const data = (await res.json()) as { user?: AuthUser };
@@ -96,16 +102,24 @@ export function App() {
         }
         if (!cancelled) {
           setAuthUser(data.user);
-          setAuthChecked(true);
+          setAuthState("authenticated");
         }
       } catch {
-        if (!cancelled) window.location.replace(`${WWW_URL}/login`);
+        if (!cancelled) setAuthState("error");
       }
     }
 
     checkSession();
     return () => {
       cancelled = true;
+    };
+  }, [authRetryKey]);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current !== null) {
+        window.clearTimeout(toastTimerRef.current);
+      }
     };
   }, []);
 
@@ -121,8 +135,8 @@ export function App() {
   }, []);
 
   useEffect(() => {
+    if (authState !== "authenticated" || feedPaused) return;
     const interval = window.setInterval(() => {
-      if (feedPaused) return;
       const entry = FEED_SCRIPT[feedStepRef.current++ % FEED_SCRIPT.length];
       setFeedRows((prev) => [
         ...prev.slice(-9).map((r) => ({ ...r, isNew: false })),
@@ -138,7 +152,7 @@ export function App() {
       ]);
     }, 2200);
     return () => window.clearInterval(interval);
-  }, [feedPaused]);
+  }, [authState, feedPaused]);
 
   const visibleIncidents = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -257,7 +271,37 @@ export function App() {
     }
   };
 
-  if (!authChecked || !authUser) {
+  if (authState === "error") {
+    return (
+      <div className="bg-canvas text-ink flex min-h-svh flex-col items-center justify-center gap-4 px-4 text-center">
+        <div className="border-line bg-panel max-w-[380px] rounded-lg border p-6">
+          <h1 className="text-[15px] font-semibold tracking-[-0.02em]">
+            Unable to verify your session
+          </h1>
+          <p className="text-ink-secondary mt-1.5 text-[13px] leading-[1.5]">
+            Could not reach the authentication service. Check your connection and try again.
+          </p>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => setAuthRetryKey((k) => k + 1)}
+              className="bg-ink text-canvas h-8 cursor-pointer rounded-md px-3.5 text-[12.5px] font-medium transition-opacity hover:opacity-90"
+            >
+              Retry
+            </button>
+            <a
+              href={`${WWW_URL}/login`}
+              className="border-line bg-surface text-ink hover:border-line-hover inline-flex h-8 items-center rounded-md border px-3 text-[12.5px] font-medium transition-colors"
+            >
+              Sign in
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (authState !== "authenticated" || !authUser) {
     return (
       <div className="bg-canvas text-ink-secondary flex min-h-svh items-center justify-center font-mono text-[12.5px]">
         Checking session...

@@ -56,7 +56,10 @@ export interface FeedRow {
   isNew: boolean;
 }
 
-export const WWW_URL = import.meta.env.VITE_WWW_URL ?? "http://localhost:3000";
+export const WWW_URL = (import.meta.env.VITE_WWW_URL ?? "http://localhost:3000").replace(
+  /\/+$/,
+  "",
+);
 
 export const INSTALL_CMD =
   "curl -sSL get.cyberledger.dev | sudo sh -s -- --key=cl_live_99a8b7c6d5";
