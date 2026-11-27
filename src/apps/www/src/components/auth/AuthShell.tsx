@@ -218,12 +218,6 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
             >
               Back to home
             </Link>
-            <a
-              href={DASHBOARD_URL}
-              className="text-ink-secondary hover:bg-surface hover:text-ink inline-flex h-8 items-center rounded-md px-3 text-[13px] font-medium transition-colors"
-            >
-              Live console
-            </a>
             <Link
               href={alternateHref}
               className="border-line bg-panel text-ink hover:border-line-hover hover:bg-surface inline-flex h-8 items-center rounded-md border px-3 text-[13px] font-medium transition-colors"
