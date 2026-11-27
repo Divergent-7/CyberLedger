@@ -1,15 +1,15 @@
 {
-  "name": "secura",
+  "name": "cyberledger",
   "private": true,
   "workspaces": [
     "src/apps/*",
     "src/packages/*"
   ],
   "scripts": {
-    "dev": "bun --filter @secura/www dev",
-    "dev:api": "bun --filter @secura/api dev",
-    "dev:www": "bun --filter @secura/www dev",
-    "start:api": "bun --filter @secura/api start",
+    "dev": "bun --filter @cyberledger/www dev",
+    "dev:api": "bun --filter @cyberledger/api dev",
+    "dev:www": "bun --filter @cyberledger/www dev",
+    "start:api": "bun --filter @cyberledger/api start",
     "build": "bun --filter './src/apps/*' build",
     "check": "bun --workspaces run check",
     "lint": "bun lint",

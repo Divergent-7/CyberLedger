@@ -44,7 +44,7 @@ export function Hero() {
         </h1>
 
         <p className="text-ink-secondary mt-6 max-w-[540px] text-[16px] leading-[1.6] sm:text-[17.5px]">
-          Secura watches your servers in real time, explains every threat in plain language, and
+          cyberLedger watches your servers in real time, explains every threat in plain language, and
           blocks attackers automatically.
         </p>
 

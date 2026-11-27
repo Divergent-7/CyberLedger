@@ -1,5 +1,5 @@
 {
-  "name": "@secura/api",
+  "name": "@cyberledger/api",
   "version": "0.1.0",
   "private": true,
   "scripts": {

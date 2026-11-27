@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { SecuraLogo } from "@/components/brand/SecuraLogo";
+import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export function Navbar() {
@@ -23,7 +23,7 @@ export function Navbar() {
       }`}
     >
       <div className="mx-auto flex h-full w-full max-w-[1120px] items-center justify-between gap-4 px-5 sm:px-7">
-        <SecuraLogo size={22} href="/" />
+        <CyberLedgerLogo size={22} href="/" />
 
         <nav aria-label="Primary" className="hidden items-center gap-7 md:flex">
           <a

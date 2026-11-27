@@ -12,7 +12,7 @@ async function bootstrap() {
 
   const port = Number(process.env.PORT ?? 4000);
   await app.listen(port);
-  Logger.log(`Secura API listening on http://localhost:${port}`, "Bootstrap");
+  Logger.log(`cyberLedger API listening on http://localhost:${port}`, "Bootstrap");
 }
 
 void bootstrap();

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 
-import { SecuraLogo } from "@/components/brand/SecuraLogo";
+import { CyberLedgerLogo } from "@/components/brand/CyberLedgerLogo";
 import { DASHBOARD_URL } from "@/lib/config";
 
 export type AuthMode = "login" | "signup";
@@ -124,7 +124,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
     <div className="bg-canvas text-ink flex min-h-svh flex-col text-[14px]">
       <header className="border-line bg-canvas h-14 shrink-0 border-b">
         <div className="mx-auto flex h-full w-full max-w-[1040px] items-center justify-between gap-4 px-4 sm:px-6">
-          <SecuraLogo size={22} href="/" />
+          <CyberLedgerLogo size={22} href="/" />
 
           <nav aria-label="Authentication navigation" className="flex items-center gap-2">
             <Link
@@ -187,7 +187,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
                 id="authHeading"
                 className="text-ink text-[20px] leading-tight font-semibold tracking-[-0.025em]"
               >
-                {isSignup ? "Create your Secura account" : "Sign in to Secura"}
+                {isSignup ? "Create your cyberLedger account" : "Sign in to cyberLedger"}
               </h1>
               <p className="text-ink-secondary mt-1.5 text-[13.5px] leading-[1.5]">
                 {isSignup
@@ -443,7 +443,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
 
             {isSignup && (
               <p className="text-ink-muted mt-3.5 text-center text-[12px] leading-[1.5]">
-                By creating an account, you agree to Secura&apos;s{" "}
+                By creating an account, you agree to cyberLedger&apos;s{" "}
                 <button
                   type="button"
                   onClick={() =>
@@ -512,7 +512,7 @@ export function AuthShell({ mode }: { mode: AuthMode }) {
             )}
 
             <div className="border-line text-ink-secondary mt-5 flex flex-wrap items-center justify-between gap-2 border-t pt-4 text-[13px]">
-              <span>{isSignup ? "Already have an account?" : "New to Secura?"}</span>
+              <span>{isSignup ? "Already have an account?" : "New to cyberLedger?"}</span>
               <Link
                 href={alternateHref}
                 className="text-ink hover:text-accent font-medium transition-colors"

@@ -1,5 +1,5 @@
 {
-  "name": "@secura/www",
+  "name": "@cyberledger/www",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "check": "tsc --noEmit"
   },
   "dependencies": {
-    "@secura/ui": "workspace:*",
+    "@cyberledger/ui": "workspace:*",
     "next": "^15.3.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
