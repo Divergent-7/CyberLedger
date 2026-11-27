@@ -20,7 +20,7 @@
   --color-safe: #7fa982;
   --color-baseline: #7b95b5;
 
-  --font-sans: var(--font-geist), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --animate-scroll-wheel: scroll-wheel 1.8s ease-in-out infinite;
